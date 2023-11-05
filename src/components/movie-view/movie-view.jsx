@@ -1,4 +1,4 @@
-import React from "react";
+import "./movie-view.scss";
 
 export const MovieView = ({ movie, onBackClick }) => {
   return (
@@ -28,7 +28,13 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>{movie.Director.Name}</span>
       </div>
       <div>
-        <button onClick={onBackClick}>Back</button>
+        <button
+          className="back-button"
+          style={{ cursor: "pointer" }}
+          onClick={onBackClick}
+        >
+          Back
+        </button>
       </div>
     </div>
   );
