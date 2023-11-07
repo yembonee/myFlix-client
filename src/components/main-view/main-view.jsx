@@ -7,6 +7,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { ProfileView } from "../profile-view/profile-view";
 
 export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -24,23 +25,6 @@ export const MainView = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        /*
-        const moviesFromApi = data.map((movie) => {
-          return {
-            Id: movie._id,
-            Title: movie.Title,
-            Description: movie.Description,
-            ImageURL: movie.ImageURL,
-            Genre: {
-              Name: movie.Genre.Name,
-            },
-            Director: {
-              Name: movie.Director.Name,
-            },
-          };
-        });
-        
-        */
         setMovies(data);
       });
   }, [token]);
@@ -121,12 +105,23 @@ export const MainView = () => {
                   <>
                     {movies.map((movie) => (
                       <Col className="mb-4" md={3} key={movie._id}>
-                        <MovieCard movie={movie} />
+                        <MovieCard movie={movie} user={user} />
                       </Col>
                     ))}
                   </>
                 )}
               </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProfileView
+                user={user}
+                token={token}
+                setUser={setUser}
+                movies={movies}
+              />
             }
           />
         </Routes>
