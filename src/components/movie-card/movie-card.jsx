@@ -48,27 +48,22 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
 
   const removeFavoriteMovie = () => {
     fetch(
-      `https://rendermovieapi.onrender.com/users/${username}/movies/${movie._id}`,
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}/movies/${movie._id}`,
       {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     )
       .then((response) => {
         if (response.ok) {
+          alert("movie removed successfully");
           response.json();
         } else {
           alert("Failed to Remove Movie");
-        }
-      })
-      .then((user) => {
-        if (user) {
-          localStorage.setItem("user", JSON.stringify(user));
-          setUser(user);
-          setFavorite(false);
-          alert("Successfully Removed Movie");
         }
       })
       .catch((err) => {

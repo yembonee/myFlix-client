@@ -50,9 +50,9 @@ export const ProfileView = ({ token, movies }) => {
       });
   }, []);
 
-  const favoriteMovies = movies.filter((movie) =>
-    user.FavoriteMovies.includes(movie._id)
-  );
+  const favoriteMovies = movies.filter((movie) => {
+    if (user.FavoriteMovies) return user.FavoriteMovies.includes(movie._id);
+  });
 
   const handleUpdate = (event) => {
     event.preventDefault();

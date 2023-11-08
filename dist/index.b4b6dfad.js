@@ -27399,21 +27399,16 @@ const MovieCard = ({ movie, user, token, setUser })=>{
         });
     };
     const removeFavoriteMovie = ()=>{
-        fetch(`https://rendermovieapi.onrender.com/users/${username}/movies/${movie._id}`, {
+        fetch(`https://rendermovieapi.onrender.com/users/${localStorage.getItem("username")}/movies/${movie._id}`, {
             method: "DELETE",
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         }).then((response)=>{
-            if (response.ok) response.json();
-            else alert("Failed to Remove Movie");
-        }).then((user)=>{
-            if (user) {
-                localStorage.setItem("user", JSON.stringify(user));
-                setUser(user);
-                setFavorite(false);
-                alert("Successfully Removed Movie");
-            }
+            if (response.ok) {
+                alert("movie removed successfully");
+                response.json();
+            } else alert("Failed to Remove Movie");
         }).catch((err)=>{
             console.log("Error: " + err);
         });
@@ -27427,7 +27422,7 @@ const MovieCard = ({ movie, user, token, setUser })=>{
                     src: movie.ImageURL
                 }, void 0, false, {
                     fileName: "src/components/movie-card/movie-card.jsx",
-                    lineNumber: 82,
+                    lineNumber: 77,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Body, {
@@ -27436,14 +27431,14 @@ const MovieCard = ({ movie, user, token, setUser })=>{
                             children: movie.Title
                         }, void 0, false, {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 84,
+                            lineNumber: 79,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Card).Text, {
                             children: movie.Director.Name
                         }, void 0, false, {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 85,
+                            lineNumber: 80,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -27453,12 +27448,12 @@ const MovieCard = ({ movie, user, token, setUser })=>{
                                 children: "Open"
                             }, void 0, false, {
                                 fileName: "src/components/movie-card/movie-card.jsx",
-                                lineNumber: 87,
+                                lineNumber: 82,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 86,
+                            lineNumber: 81,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -27466,7 +27461,7 @@ const MovieCard = ({ movie, user, token, setUser })=>{
                             children: "+"
                         }, void 0, false, {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 89,
+                            lineNumber: 84,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactBootstrap.Button), {
@@ -27474,24 +27469,24 @@ const MovieCard = ({ movie, user, token, setUser })=>{
                             children: "-"
                         }, void 0, false, {
                             fileName: "src/components/movie-card/movie-card.jsx",
-                            lineNumber: 90,
+                            lineNumber: 85,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/movie-card/movie-card.jsx",
-                    lineNumber: 83,
+                    lineNumber: 78,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/components/movie-card/movie-card.jsx",
-            lineNumber: 81,
+            lineNumber: 76,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/components/movie-card/movie-card.jsx",
-        lineNumber: 80,
+        lineNumber: 75,
         columnNumber: 5
     }, undefined);
 };
@@ -48484,7 +48479,9 @@ const ProfileView = ({ token, movies })=>{
             console.log("Error " + err);
         });
     }, []);
-    const favoriteMovies = movies.filter((movie)=>user.FavoriteMovies.includes(movie._id));
+    const favoriteMovies = movies.filter((movie)=>{
+        if (user.FavoriteMovies) return user.FavoriteMovies.includes(movie._id);
+    });
     const handleUpdate = (event)=>{
         event.preventDefault();
         const data = {
