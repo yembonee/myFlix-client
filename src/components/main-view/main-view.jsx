@@ -10,15 +10,18 @@ import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
 
 export const MainView = () => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedUser = localStorage.getItem("user"); //works as as it should
   const storedToken = localStorage.getItem("token");
+  const parseUser = JSON.parse(JSON.stringify(storedUser));
 
   const [movies, setMovies] = useState([]);
+  const [user, setUser] = useState(storedUser ? parseUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
-  const [user, setUser] = useState(storedUser ? storedUser : null);
 
   useEffect(() => {
-    if (!token) return;
+    if (!token) {
+      return;
+    }
 
     fetch("https://rendermovieapi.onrender.com/movies", {
       headers: { Authorization: `Bearer ${token}` },

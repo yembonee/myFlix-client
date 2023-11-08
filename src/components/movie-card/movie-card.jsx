@@ -1,25 +1,28 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { Button, Card, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router";
 
 export const MovieCard = ({ movie, user, token, setUser }) => {
-  const { movieId } = useParams();
   const [Favorite, setFavorite] = useState(false);
+  console.log(user);
 
   useEffect(() => {
-    const isFavorited = user.FavoriteMovies.includes(movieId);
-    setFavorite(isFavorited);
-  }, []);
-
+    console.log(user);
+    if (user.FavoriteMovies && user.FavoriteMovies.includes(movie._id)) {
+      setFavorite(true);
+    }
+  }, [user]);
   const addFavoriteMovie = () => {
+    console.log("called addFavoriteMovie");
     fetch(
-      `https://rendermovieapi.onrender.com/users/${user.Username}/movies/${movieId}`,
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}/movies/${movie._id}`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     )
@@ -30,10 +33,13 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
           alert("Failed to Add Movie");
         }
       })
-      .then((data) => {
-        setFavorite(true);
-        localStorage.setItem("user", JSON.stringify(data));
-        setUser(data);
+      .then((user) => {
+        if (user) {
+          alert("Succesfully added movie");
+          localStorage.setItem("user", Json.stringify(user));
+          setUser(user);
+          setFavorite(true);
+        }
       })
       .catch((err) => {
         console.log("Error " + err);
@@ -42,7 +48,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
 
   const removeFavoriteMovie = () => {
     fetch(
-      `https://rendermovieapi.onrender.com/users/${user.Username}/movies/${movieId}`,
+      `https://rendermovieapi.onrender.com/users/${username}/movies/${movie._id}`,
       {
         method: "DELETE",
         headers: {

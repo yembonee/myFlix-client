@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import {
   Container,
@@ -12,14 +12,46 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const ProfileView = ({ user, token, movies, setUser }) => {
+export const ProfileView = ({ token, movies }) => {
   const [username, setUsername] = useState("");
+  const [user, setUser] = useState({});
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  const favoriteMovies = movies.filter((m) =>
-    user.FavoriteMovies.includes(m._id)
+  useEffect(() => {
+    fetch(
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert("Failed to Get User");
+        }
+      })
+      .then((user) => {
+        if (user) {
+          setUser(user);
+          console.log(user);
+          //setFavorite(true);
+        }
+      })
+      .catch((err) => {
+        console.log("Error " + err);
+      });
+  }, []);
+
+  const favoriteMovies = movies.filter((movie) =>
+    user.FavoriteMovies.includes(movie._id)
   );
 
   const handleUpdate = (event) => {
@@ -32,7 +64,7 @@ export const ProfileView = ({ user, token, movies, setUser }) => {
       Birthday: birthday,
     };
 
-    fetch(`https://rendermovieapi.onrender.com/users/${user.Username}`, {
+    fetch(`https://rendermovieapi.onrender.com/users/${user.username}`, {
       method: "PUT",
       body: JSON.stringify(data),
       headers: {
@@ -56,7 +88,7 @@ export const ProfileView = ({ user, token, movies, setUser }) => {
   const handleDelete = (event) => {
     event.preventDefault();
 
-    fetch(`https://rendermovieapi.onrender.com/users/${user.Username}`, {
+    fetch(`https://rendermovieapi.onrender.com/users/${user.username}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
