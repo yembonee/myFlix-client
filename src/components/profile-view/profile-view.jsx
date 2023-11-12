@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "../movie-card/movie-card";
 import {
   Container,
@@ -12,15 +12,47 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export const ProfileView = ({ user, token, movies, setUser }) => {
+export const ProfileView = ({ token, movies }) => {
   const [username, setUsername] = useState("");
+  const [user, setUser] = useState({});
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
 
-  const favoriteMovies = movies.filter((m) =>
-    user.FavoriteMovies.includes(m._id)
-  );
+  useEffect(() => {
+    fetch(
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          alert("Failed to Get User");
+        }
+      })
+      .then((user) => {
+        if (user) {
+          setUser(user);
+          console.log(user);
+          //setFavorite(true);
+        }
+      })
+      .catch((err) => {
+        console.log("Error " + err);
+      });
+  }, []);
+
+  const favoriteMovies = movies.filter((movie) => {
+    if (user.FavoriteMovies) return user.FavoriteMovies.includes(movie._id);
+  });
 
   const handleUpdate = (event) => {
     event.preventDefault();
@@ -32,14 +64,19 @@ export const ProfileView = ({ user, token, movies, setUser }) => {
       Birthday: birthday,
     };
 
-    fetch(`https://rendermovieapi.onrender.com/users/${user.Username}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
       .then((response) => {
         if (response.ok) {
           alert("Update Successful");
@@ -47,7 +84,7 @@ export const ProfileView = ({ user, token, movies, setUser }) => {
           localStorage.setItem("user", JSON.stringify(data));
           window.location.reload();
         } else {
-          alert("Update Unsuccesful");
+          alert("Update Unsuccessful");
         }
       })
       .catch((err) => console.log("error", err));
@@ -56,12 +93,17 @@ export const ProfileView = ({ user, token, movies, setUser }) => {
   const handleDelete = (event) => {
     event.preventDefault();
 
-    fetch(`https://rendermovieapi.onrender.com/users/${user.Username}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
       .then((response) => {
         if (response.ok) {
           setUser(null);
