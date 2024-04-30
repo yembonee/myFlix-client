@@ -16,9 +16,9 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
   const addFavoriteMovie = () => {
     console.log("called addFavoriteMovie");
     fetch(
-      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
-        "username"
-      )}/movies/${movie._id}`,
+      `http://35.94.33.77/users/${localStorage.getItem("username")}/movies/${
+        movie._id
+      }`,
       {
         method: "POST",
         headers: {
@@ -48,9 +48,9 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
 
   const removeFavoriteMovie = () => {
     fetch(
-      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
-        "username"
-      )}/movies/${movie._id}`,
+      `http://35.94.33.77/users/${localStorage.getItem("username")}/movies/${
+        movie._id
+      }`,
       {
         method: "DELETE",
         headers: {
