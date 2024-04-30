@@ -23,7 +23,7 @@ export const MainView = () => {
       return;
     }
 
-    fetch("https://rendermovieapi.onrender.com/movies", {
+    fetch("http://35.94.33.77/movies", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())
