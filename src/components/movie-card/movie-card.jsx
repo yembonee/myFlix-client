@@ -16,9 +16,9 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
   const addFavoriteMovie = () => {
     console.log("called addFavoriteMovie");
     fetch(
-      `http://35.94.33.77/users/${localStorage.getItem("username")}/movies/${
-        movie._id
-      }`,
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}/movies/${movie._id}`,
       {
         method: "POST",
         headers: {
