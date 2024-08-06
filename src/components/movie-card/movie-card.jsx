@@ -48,9 +48,9 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
 
   const removeFavoriteMovie = () => {
     fetch(
-      `http://35.94.33.77/users/${localStorage.getItem("username")}/movies/${
-        movie._id
-      }`,
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}/movies/${movie._id}`,
       {
         method: "DELETE",
         headers: {
