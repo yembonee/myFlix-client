@@ -20,12 +20,17 @@ export const ProfileView = ({ token, movies }) => {
   const [birthday, setBirthday] = useState("");
 
   useEffect(() => {
-    fetch(`http://35.94.33.77/users/${localStorage.getItem("username")}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
+    fetch(
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
       .then((response) => {
         if (response.ok) {
           return response.json();

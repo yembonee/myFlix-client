@@ -13,7 +13,7 @@ export const LoginView = ({ onLoggedIn }) => {
       Password: password,
     };
 
-    fetch("http://35.94.33.77/login", {
+    fetch("https://rendermovieapi.onrender.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
