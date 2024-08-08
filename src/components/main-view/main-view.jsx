@@ -5,6 +5,7 @@ import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import "./main-view.scss";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
@@ -15,6 +16,7 @@ export const MainView = () => {
   const parseUser = JSON.parse(JSON.stringify(storedUser));
 
   const [movies, setMovies] = useState([]);
+  const [originalMovies, setOriginalMovies] = useState([]);
   const [user, setUser] = useState(storedUser ? parseUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
 
@@ -28,7 +30,9 @@ export const MainView = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log("Fethced movies:", data);
         setMovies(data);
+        setOriginalMovies(data);
       });
   }, [token]);
 
@@ -38,6 +42,7 @@ export const MainView = () => {
         user={user}
         movies={movies}
         setMovies={setMovies}
+        originalMovies={originalMovies}
         onLoggedOut={() => {
           setUser(null);
           setToken(null);
@@ -82,6 +87,7 @@ export const MainView = () => {
           />
           <Route
             path="/movies/:movieId"
+            className="movieRoute"
             element={
               <>
                 {!user ? (
@@ -110,7 +116,15 @@ export const MainView = () => {
                 ) : (
                   <>
                     {movies.map((movie) => (
-                      <Col className="mb-4" md={3} key={movie._id}>
+                      <Col
+                        className="mb-4"
+                        xl={2}
+                        lg={3}
+                        md={4}
+                        sm={6}
+                        xs={12}
+                        key={movie._id}
+                      >
                         <MovieCard movie={movie} user={user} />
                       </Col>
                     ))}

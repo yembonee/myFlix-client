@@ -1,12 +1,27 @@
+import React from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { SearchBar } from "../search-form/search-form";
+import "./navigation-bar.scss";
 
-export const NavigationBar = ({ user, onLoggedOut, movies, setMovies }) => {
+export const NavigationBar = ({
+  user,
+  onLoggedOut,
+  movies,
+  setMovies,
+  originalMovies,
+}) => {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar
+      expand="lg"
+      className="shadow-sm"
+      fixed="top"
+      style={{
+        backgroundColor: "#E5D4C0",
+      }}
+    >
       <Container>
-        <Navbar.Brand as={Link} to="/">
+        <Navbar.Brand as={Link} to="/" className="fw-bold">
           MyFlix App
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -24,10 +39,11 @@ export const NavigationBar = ({ user, onLoggedOut, movies, setMovies }) => {
             )}
             {user && (
               <>
-                <Nav.Link as={Link} to="/">
-                  Home
-                </Nav.Link>
-                <SearchBar movies={movies} setMovies={setMovies} />
+                <SearchBar
+                  movies={movies}
+                  setMovies={setMovies}
+                  originalMovies={originalMovies}
+                />
                 <Nav.Link as={Link} to="/profile">
                   My Profile
                 </Nav.Link>
