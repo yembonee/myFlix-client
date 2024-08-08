@@ -64,14 +64,19 @@ export const ProfileView = ({ token, movies }) => {
       Birthday: birthday,
     };
 
-    fetch(`http://35.94.33.77/users/${localStorage.getItem("username")}`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
+    fetch(
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
       .then((response) => {
         if (response.ok) {
           alert("Update Successful");
@@ -88,12 +93,17 @@ export const ProfileView = ({ token, movies }) => {
   const handleDelete = (event) => {
     event.preventDefault();
 
-    fetch(`http://35.94.33.77/users/${localStorage.getItem("username")}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
+    fetch(
+      `https://rendermovieapi.onrender.com/users/${localStorage.getItem(
+        "username"
+      )}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
       .then((response) => {
         if (response.ok) {
           setUser(null);
@@ -171,7 +181,7 @@ export const ProfileView = ({ token, movies }) => {
           </Col>
         </Row>
       </Container>
-      ;
+
       <Container>
         <Row className="justify-content-md-center align-items-center">
           {favoriteMovies.map((movie) => {

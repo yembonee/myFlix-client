@@ -1,0 +1,69 @@
+.card {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  box-shadow: 0, 0, 0, 0.1;
+}
+
+.movie-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.movie-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.movie-card:hover {
+  transform: scale(1.02);
+}
+
+.card-img {
+  height: auto;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.card-body1 {
+  padding: 10px;
+  height: auto;
+  overflow: hidden;
+  text-align: center;
+  background-color: #e5d4c0;
+  border-radius: 0 0 10px 10px;
+}
+
+.card-title,
+.card-text {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 992px) {
+  .col-md-2 {
+    width: 16.66%;
+  }
+}
+
+@media (max-width: 991px) {
+  .col-md-3 {
+    width: 24.99%;
+  }
+}
+
+@media (max-width: 767px) {
+  .col-md-6 {
+    width: 49.99%;
+  }
+}
+
+@media (max-width: 575px) {
+  .col-md-12 {
+    width: 100%;
+  }
+}

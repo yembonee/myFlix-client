@@ -1,19 +1,16 @@
 import React from "react";
+import "./search-form.scss";
 import { Form, FormControl } from "react-bootstrap";
 
-export const SearchBar = ({ movies, setMovies }) => {
+export const SearchBar = ({ movies, setMovies, originalMovies }) => {
   const handleSearch = (event) => {
     const query = event.target.value;
 
-    const filteredMovies = movies.filter((movie) =>
+    const filteredMovies = originalMovies.filter((movie) =>
       movie.Title.toLowerCase().includes(query.toLowerCase())
     );
-
-    if (!filteredMovies.length || !query) {
-      setMovies(movies);
-    } else {
-      setMovies(filteredMovies);
-    }
+    console.log("Filtered Movies:", filteredMovies);
+    setMovies(filteredMovies);
   };
 
   const handleKeyPress = (event) => {
@@ -21,17 +18,21 @@ export const SearchBar = ({ movies, setMovies }) => {
 
     if (event.key === "Enter" && query.length == 0) {
       event.preventDefault();
-      window.location.reload();
+      setMovies(originalMovies);
     }
   };
 
   return (
-    <Form>
+    <Form className="form">
       <FormControl
         type="text"
         placeholder="Search for movies here..."
         onChange={handleSearch}
         onKeyDown={handleKeyPress}
+        style={{
+          backgroundColor: "#ffffff",
+          border: "1px solid #e5d4c0",
+        }}
       />
     </Form>
   );

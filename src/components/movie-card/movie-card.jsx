@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PropTypes } from "prop-types";
 import { Button, Card, Container } from "react-bootstrap";
+import "./movie-card.scss";
 import { Link } from "react-router-dom";
 
 export const MovieCard = ({ movie, user, token, setUser }) => {
@@ -13,6 +14,7 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
       setFavorite(true);
     }
   }, [user]);
+
   const addFavoriteMovie = () => {
     console.log("called addFavoriteMovie");
     fetch(
@@ -72,20 +74,17 @@ export const MovieCard = ({ movie, user, token, setUser }) => {
   };
 
   return (
-    <Container>
-      <Card className="h-100">
-        <Card.Img variant="top" src={movie.ImageURL} />
-        <Card.Body>
+    <Link
+      to={`/movies/${encodeURIComponent(movie._id)}`}
+      className="movie-card-link"
+    >
+      <Card className="h-100 movie-card">
+        <Card.Img variant="top" className="card-img" src={movie.ImageURL} />
+        <Card.Body className="card-body1">
           <Card.Title>{movie.Title}</Card.Title>
-          <Card.Text>{movie.Director.Name}</Card.Text>
-          <Link to={`/movies/${encodeURIComponent(movie._id)}`}>
-            <Button variant="link">Open</Button>
-          </Link>
-          <Button onClick={addFavoriteMovie}>+</Button>
-          <Button onClick={removeFavoriteMovie}>-</Button>
         </Card.Body>
       </Card>
-    </Container>
+    </Link>
   );
 };
 
