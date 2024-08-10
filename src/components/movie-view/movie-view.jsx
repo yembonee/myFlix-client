@@ -9,6 +9,7 @@ import {
   ToastContainer,
 } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import StarRating from "./star-rating";
 
 export const MovieView = ({ movies }) => {
   const { movieId } = useParams();
@@ -16,11 +17,38 @@ export const MovieView = ({ movies }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [userRating, setUserRating] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const movieData = movies.find((movie) => movie._id === movieId);
-    setMovie(movieData);
+    const fetchMovieData = async () => {
+      const movieData = movies.find((movie) => movie._id === movieId);
+      setMovie(movieData);
+
+      if (movieData) {
+        try {
+          const response = await fetch(
+            `https://rendermovieapi.onrender.com/movies/${movieId}/rating`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setUserRating(data.rating || 0);
+          } else {
+            console.error("Error fetching rating:", data.errors);
+          }
+        } catch (err) {
+          console.error("Error fetching rating:", err);
+        }
+      }
+    };
+
+    fetchMovieData();
   }, [movieId, movies]);
 
   const handleAddFavorite = async () => {
@@ -73,6 +101,32 @@ export const MovieView = ({ movies }) => {
     }
   };
 
+  const handleRating = async (movieId, rating) => {
+    try {
+      const response = await fetch(
+        `https://rendermovieapi.onrender.com/movies/${movieId}/rate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ rating }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setUserRating(rating);
+        setToastMessage("Rating updated successfully!");
+        setShowToast(true);
+      } else {
+        console.error("Error updating rating:", data.errors);
+      }
+    } catch (err) {
+      console.error("Error updating rating:", err);
+    }
+  };
+
   if (!movie) return <div>Loading...</div>;
 
   return (
@@ -92,6 +146,12 @@ export const MovieView = ({ movies }) => {
           <Button onClick={handleRemoveFavorite} variant="danger">
             Remove from Favorites
           </Button>
+          <StarRating
+            movieId={movie._id}
+            handleRating={handleRating}
+            initialRating={userRating}
+          />
+          <Card.Text>Average Rating: {movie.AverageRating || "N/A"}</Card.Text>
           <Link to={"/"}>
             <Button variant="primary" className="mt-2">
               Back
