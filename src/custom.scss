@@ -1,0 +1,23 @@
+// src/custom.scss
+[type="search"] {
+  -webkit-appearance: none; // Customize search input
+  outline-offset: 0px; // Adjust outline offset
+}
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: none; // Customize buttons
+
+  @if $enable-button-pointers {
+    &:not(:disabled) {
+      cursor: default; // Customize cursor
+    }
+  }
+}
+
+::file-selector-button {
+  font: inherit;
+  -webkit-appearance: none; // or your custom styles
+}
