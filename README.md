@@ -6,7 +6,7 @@
 
 ## myFlix React Website
 
-- Site Live at https://loquacious-gaufre-5f35f2.netlify.app/login
+- Site Live at https://myflixforus.netlify.app/login
 
 ## Overview
 
