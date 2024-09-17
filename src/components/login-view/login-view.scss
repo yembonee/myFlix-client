@@ -1,0 +1,12 @@
+.modal {
+  width: 500px;
+  height: 400px;
+  position: relative;
+}
+
+.modal-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

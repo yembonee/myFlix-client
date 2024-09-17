@@ -21,7 +21,7 @@ export const NavigationBar = ({
       }}
     >
       <Container>
-        <Navbar.Brand as={Link} to="/" className="fw-bold">
+        <Navbar.Brand as={Link} to="/home" className="fw-bold">
           MyFlix App
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -29,11 +29,8 @@ export const NavigationBar = ({
           <Nav className="me-auto">
             {!user && (
               <>
-                <Nav.Link as={Link} to="/login">
-                  Login
-                </Nav.Link>
-                <Nav.Link as={Link} to="/signup">
-                  Signup
+                <Nav.Link as={Link} to="/home">
+                  Welcome
                 </Nav.Link>
               </>
             )}
@@ -47,7 +44,9 @@ export const NavigationBar = ({
                 <Nav.Link as={Link} to="/profile">
                   My Profile
                 </Nav.Link>
-                <Nav.Link onClick={onLoggedOut}>Logout</Nav.Link>
+                <Nav.Link to="/home" as={Link} onClick={onLoggedOut}>
+                  Logout
+                </Nav.Link>
               </>
             )}
           </Nav>

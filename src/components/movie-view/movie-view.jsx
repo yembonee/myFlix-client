@@ -91,7 +91,7 @@ export const MovieView = ({ movies }) => {
       );
       if (response.ok) {
         setIsFavorite(false);
-        setToastMessage("Movie removed from Favorites.");
+        setToastMessage("Movie removed from Favorites. ");
         setShowToast(true);
       } else {
         alert("Failed to remove from favorites");
