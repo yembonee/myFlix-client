@@ -9,6 +9,8 @@ import "./main-view.scss";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { ProfileView } from "../profile-view/profile-view";
+import { HomeView } from "../home-view/home-view";
+import { useNavigate } from "react-router-dom";
 
 export const MainView = () => {
   const storedUser = localStorage.getItem("user"); //works as as it should
@@ -30,7 +32,7 @@ export const MainView = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Fethced movies:", data);
+        console.log("Fetched movies:", data);
         setMovies(data);
         setOriginalMovies(data);
       });
@@ -53,34 +55,18 @@ export const MainView = () => {
       <Row className="justify-content-md-center">
         <Routes>
           <Route
-            path="/signup"
+            path="/home"
             element={
               <>
                 {user ? (
-                  <Navigate to="/" />
+                  <Navigate to="/" replace />
                 ) : (
-                  <Col md={5}>
-                    <SignupView />
-                  </Col>
-                )}
-              </>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <>
-                {user ? (
-                  <Navigate to="/" />
-                ) : (
-                  <Col md={5}>
-                    <LoginView
-                      onLoggedIn={(user, token) => {
-                        setUser(user);
-                        setToken(token);
-                      }}
-                    />
-                  </Col>
+                  <HomeView
+                    onLoggedIn={(user, token) => {
+                      setUser(user);
+                      setToken(token);
+                    }}
+                  />
                 )}
               </>
             }
