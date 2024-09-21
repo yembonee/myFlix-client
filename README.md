@@ -6,7 +6,7 @@
 
 ## myFlix React Website
 
-- Site Live at https://myflixforus.netlify.app/login
+- Site Live at https://myflixforus.netlify.app/home
 
 ## Overview
 
